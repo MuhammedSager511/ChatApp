@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Application.Presistence.Contracts
 {
-    public interface IGenericRepository< T> where T : class
+    public interface IGenericRepository<T> where T : class
     {
         Task<IReadOnlyList<T>> GetAllAsync();
-        Task<T> GetAsync(int entity );
-        Task DeleteAsync(int entity);
+        Task<T?> GetAsync(int id );
+        Task DeleteAsync(int id);
         Task AddAsync(T entity);
         Task UpdateAsync( T entity );
         

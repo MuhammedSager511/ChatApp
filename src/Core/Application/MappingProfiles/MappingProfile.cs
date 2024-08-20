@@ -1,4 +1,5 @@
 ﻿using Application.Features.Message.Command.AddMessage;
+using Application.Features.Message.Query.GetAllMessages;
 using AutoMapper;
 using Domain.Entities;
 using System;
@@ -15,6 +16,7 @@ namespace Application.MappingProfiles
         {
             //Mapping Message
             CreateMap<Message,AddMessageDto>().ReverseMap();
+            CreateMap<Message,MessageReturnDto>().ReverseMap();
         }
     }
 }
