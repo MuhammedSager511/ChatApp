@@ -12,5 +12,6 @@ namespace Application.Responses
         public bool IsSuccess { get; set; }
         public string Message { get; set; }=string.Empty;
         public List<string> Erorrs { get; set; }=new List<string>();
+        public object Data { get; set; }
     }
 }

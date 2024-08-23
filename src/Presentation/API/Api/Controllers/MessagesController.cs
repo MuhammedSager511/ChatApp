@@ -1,6 +1,7 @@
 ﻿using Application.Features.Message.Command.AddMessage;
 using Application.Features.Message.Query.GetAllMessages;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,6 +18,7 @@ namespace Api.Controllers
         {
             this.mediator = mediator;
         }
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<MessageReturnDto>> Get(CancellationToken ct)
         {
