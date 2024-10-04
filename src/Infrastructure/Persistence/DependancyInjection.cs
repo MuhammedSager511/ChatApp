@@ -35,6 +35,7 @@ namespace Persistence
             //configure
             services.AddScoped(typeof(IGenericRepository<>),typeof(GenericRepository<>));
             services.AddScoped<IMessageRepository, MessageRepository>();
+            services.AddScoped<IUserRepositry, UserRepositry>();
 
             //configure token
             services.AddScoped<ITokenServices, TokenServices>();

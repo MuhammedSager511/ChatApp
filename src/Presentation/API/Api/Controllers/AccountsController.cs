@@ -1,7 +1,10 @@
 ﻿using Application.Features.Accounts.Command.CheckUserNameOrEmailExist;
-using Application.Features.Accounts.Command.GetCurrentUser;
 using Application.Features.Accounts.Command.Login;
 using Application.Features.Accounts.Command.Register;
+using Application.Features.Accounts.Queries.GetAllUsers;
+using Application.Features.Accounts.Queries.GetCurrentUser;
+using Application.Features.Accounts.Queries.GetUserByUserId;
+using Application.Features.Accounts.Queries.GetUserByUserName;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -20,14 +23,13 @@ namespace Api.Controllers
             this.mediator = mediator;
         }
 
-
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
         {
             try
             {
 
-                if (ModelState.IsValid) 
+                if (ModelState.IsValid)
                 {
                     var command = new LoginCommand(loginDto);
                     var response = await mediator.Send(command);
@@ -69,26 +71,26 @@ namespace Api.Controllers
         /// 
         /// </remarks>
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterDto registerDto) 
+        public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    var command=new RegisterCommand(registerDto);
-                    var response=await mediator.Send(command);
+                    var command = new RegisterCommand(registerDto);
+                    var response = await mediator.Send(command);
                     if (response.IsSuccess)
                     {
                         return Ok(response.Data);
                     }
 
-                    if (response.IsSuccess==false)
+                    if (response.IsSuccess == false)
                     {
                         return BadRequest(response.Erorrs);
                     }
 
 
-                    return BadRequest(response.Message);    
+                    return BadRequest(response.Message);
                 }
                 return BadRequest();
             }
@@ -105,7 +107,7 @@ namespace Api.Controllers
         {
             try
             {
-                var user = await mediator.Send(new GetCurrentUserQuery(),ct);
+                var user = await mediator.Send(new GetCurrentUserQuery(), ct);
 
                 if (user is not null)
                 {
@@ -122,7 +124,7 @@ namespace Api.Controllers
 
 
         [HttpGet("check-userName-or-email-exist/{searchTerm}")]
-        public async Task<ActionResult<bool>> CheckUserNameExist(string searchTerm,CancellationToken ct)
+        public async Task<ActionResult<bool>> CheckUserNameExist(string searchTerm, CancellationToken ct)
         {
             try
             {
@@ -131,13 +133,76 @@ namespace Api.Controllers
                 if (result)
                     return Ok(result);
                 return NotFound(false);
-                
-            
-            
+
+
+
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);    
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("get-all-users")]
+        public async Task<ActionResult> GetAllUsers(CancellationToken ct)
+        {
+            try
+            {
+                var users = await mediator.Send(new GetAllUsersQuery(), ct);
+
+                if (users is not null)
+                {
+                    return Ok(users);
+                }
+                return NotFound();
+
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest($"{ex.Message}");
+            }
+
+
+        }
+
+        [HttpGet("get-all-userName/{userName}")]
+        public async Task<ActionResult<MemberDto>> GetUserByUserName(string userName, CancellationToken ct)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(userName))
+                {
+                    var user = await mediator.Send(new GetUserByUserNameQuery(userName), ct);
+                    if (user is not null) return Ok(user);
+                }
+                return NotFound();
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+
+        [HttpGet("get-all-userId/{userId}")]
+        public async Task<ActionResult<MemberDto>> GetUserByUserId(string userId, CancellationToken ct)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(userId))
+                {
+                    var user = await mediator.Send(new GetUserByUserIdQuery(userId), ct);
+                    if (user is not null) return Ok(user);
+                }
+                return NotFound();
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
             }
         }
     }

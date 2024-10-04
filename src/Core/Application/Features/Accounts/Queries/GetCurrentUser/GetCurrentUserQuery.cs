@@ -10,9 +10,9 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Features.Accounts.Command.GetCurrentUser
+namespace Application.Features.Accounts.Queries.GetCurrentUser
 {
-    public class GetCurrentUserQuery:IRequest<UserReturnDto>
+    public class GetCurrentUserQuery : IRequest<UserReturnDto>
     {
 
         class Handler : IRequestHandler<GetCurrentUserQuery, UserReturnDto>
@@ -21,13 +21,13 @@ namespace Application.Features.Accounts.Command.GetCurrentUser
             private readonly UserManager<AppUser> userManager;
             private readonly ITokenServices token;
 
-            public Handler(IHttpContextAccessor httpContext ,UserManager<AppUser> userManager, ITokenServices token)
+            public Handler(IHttpContextAccessor httpContext, UserManager<AppUser> userManager, ITokenServices token)
             {
                 this.httpContext = httpContext;
                 this.userManager = userManager;
                 this.token = token;
             }
-            public async Task<UserReturnDto> Handle(GetCurrentUserQuery request, 
+            public async Task<UserReturnDto> Handle(GetCurrentUserQuery request,
                                                     CancellationToken cancellationToken
                                                    )
             {
