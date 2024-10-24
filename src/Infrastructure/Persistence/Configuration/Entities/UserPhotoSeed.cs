@@ -18,29 +18,29 @@ namespace Persistence.Configuration.Entities
                 new Photo()
                 {
                     Id = 1,
-                    AppUserId = "d26d32da-d505-43b5-9e6d-51b667b27a0c",
+                    AppUserId = "da9b70b8-5425-4f8f-82c4-144706bb4a93",
                     IsActive = true,
                     IsMain = true,
-                    Url = "https://www.google.com/imgres?q=user&imgurl=https%3A%2F%2Fcdn-icons-png.flaticon.com%2F512%2F219%2F219986.png&imgrefurl=https%3A%2F%2Fwww.flaticon.com%2Ffree-icon%2Fuser_219986&docid=_W1KK9rlaF0E_M&tbnid=J8FAsbNvH-TK-M&vet=12ahUKEwj2-sOw3vKIAxU6g_0HHWUHKowQM3oECGoQAA..i&w=512&h=512&hcb=2&ved=2ahUKEwj2-sOw3vKIAxU6g_0HHWUHKowQM3oECGoQAA",
-                    PublicId = "some-unique-public-id2"
+                    Url = "https://xsgames.co/randomusers/assets/avatars/male/31.jpg",
+                    PublicId = "some-unique-public-id55"
                 },
                    new Photo()
                    {
                        Id=2,
-                       AppUserId = "160465c2-b0b2-4fb7-abe1-56ac9944b894",
+                       AppUserId = "da9b70b8-5425-4f8f-82c4-144706bb4a93",
                        IsActive = true,
-                       IsMain = false,
-                       Url = "https://www.google.com/imgres?q=user&imgurl=https%3A%2F%2Fcdn-icons-png.flaticon.com%2F512%2F219%2F219986.png&imgrefurl=https%3A%2F%2Fwww.flaticon.com%2Ffree-icon%2Fuser_219986&docid=_W1KK9rlaF0E_M&tbnid=J8FAsbNvH-TK-M&vet=12ahUKEwj2-sOw3vKIAxU6g_0HHWUHKowQM3oECGoQAA..i&w=512&h=512&hcb=2&ved=2ahUKEwj2-sOw3vKIAxU6g_0HHWUHKowQM3oECGoQAA",
-                       PublicId = "some-unique-public-id2"
+                       IsMain = true,
+                       Url = "https://xsgames.co/randomusers/assets/avatars/male/41.jpg",
+                       PublicId = "some-unique-public-id5533"
                    },
                       new Photo()
                       {
                           Id=3,
-                          AppUserId = "2ff4a611-8f2c-4540-ace1-0da73cb212e0",
+                          AppUserId = "da9b70b8-5425-4f8f-82c4-144706bb4a93",
                           IsActive = true,
-                          IsMain = false,
-                          Url = "https://www.google.com/imgres?q=user&imgurl=https%3A%2F%2Fcdn-icons-png.flaticon.com%2F512%2F219%2F219986.png&imgrefurl=https%3A%2F%2Fwww.flaticon.com%2Ffree-icon%2Fuser_219986&docid=_W1KK9rlaF0E_M&tbnid=J8FAsbNvH-TK-M&vet=12ahUKEwj2-sOw3vKIAxU6g_0HHWUHKowQM3oECGoQAA..i&w=512&h=512&hcb=2&ved=2ahUKEwj2-sOw3vKIAxU6g_0HHWUHKowQM3oECGoQAA",
-                          PublicId = "some-unique-public-id3"
+                          IsMain = true,
+                          Url = "https://xsgames.co/randomusers/assets/avatars/male/21.jpg",
+                          PublicId = "some-unique-public-id553"
                       }
                 );
         }

@@ -23,6 +23,7 @@ namespace Api.Controllers
             this.mediator = mediator;
         }
 
+        [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
         {
@@ -71,6 +72,9 @@ namespace Api.Controllers
         /// 
         /// </remarks>
         [HttpPost("register")]
+        [AllowAnonymous]
+        [ProducesDefaultResponseType]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
         {
             try
@@ -101,7 +105,7 @@ namespace Api.Controllers
             }
         }
 
-        [Authorize]
+        
         [HttpGet("get-current-user")]
         public async Task<ActionResult<UserReturnDto>> GetCurrentUser(CancellationToken ct)
         {
