@@ -1,6 +1,7 @@
 ﻿using Application.Features.Accounts.Command.CheckUserNameOrEmailExist;
 using Application.Features.Accounts.Command.Login;
 using Application.Features.Accounts.Command.Register;
+using Application.Features.Accounts.Command.UpdateCurrentMember;
 using Application.Features.Accounts.Queries.GetAllUsers;
 using Application.Features.Accounts.Queries.GetCurrentUser;
 using Application.Features.Accounts.Queries.GetUserByUserId;
@@ -105,7 +106,7 @@ namespace Api.Controllers
             }
         }
 
-        
+
         [HttpGet("get-current-user")]
         public async Task<ActionResult<UserReturnDto>> GetCurrentUser(CancellationToken ct)
         {
@@ -209,5 +210,28 @@ namespace Api.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPut("update-current-member")]
+        public async Task<ActionResult<UpdateCurrentMemberDto>> UpdateCurrentMember([FromBody] UpdateCurrentMemberDto updateCurrentMemberDto)
+        {
+            try
+            {
+                var command = new UpdateCurrentMemberCommand(updateCurrentMemberDto);
+                var response=await mediator.Send(command);
+                if (response.IsSuccess) 
+                {
+                    return Ok(response.Data);
+                }
+                return BadRequest(response.Erorrs);
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+    
+    
     }
 }
