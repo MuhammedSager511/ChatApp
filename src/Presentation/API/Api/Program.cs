@@ -65,6 +65,7 @@ namespace Api
             }
 
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
             app.UseCors("CorsPolicy");
 
             app.UseAuthentication();

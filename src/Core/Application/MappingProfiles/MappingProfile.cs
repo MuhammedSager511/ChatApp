@@ -2,6 +2,7 @@
 using Application.Features.Accounts.Queries.GetAllUsers;
 using Application.Features.Message.Command.AddMessage;
 using Application.Features.Message.Query.GetAllMessages;
+using Application.Helper;
 using AutoMapper;
 using Domain.Entities;
 using System;
@@ -22,11 +23,13 @@ namespace Application.MappingProfiles
 
             //mapping appuser-memberdto
             CreateMap<AppUser,MemberDto>()
-                .ForMember(d=>d.PhoneUrl,o=>o.MapFrom(s=>s.Photos.FirstOrDefault(x=>x.IsMain).Url))
+                .ForMember(d=>d.PhoneUrl,o=>o.MapFrom<UserMemberResolver>())
                 .ForMember(d => d.Age, o => o.MapFrom(s => s.DateOfBirth.CalculateAge()))
 
                 .ReverseMap();
-            CreateMap<Photo,PhotoDto>().ReverseMap();
+            CreateMap<Photo,PhotoDto>()
+                .ForMember(d=>d.Url,o=>o.MapFrom<UserPhotoResolver>())
+                .ReverseMap();
         }
     }
 }

@@ -4,6 +4,8 @@ using AutoMapper;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,12 +29,14 @@ namespace Application.Features.Accounts.Command.Login
             private readonly IMapper mapper;
             private readonly SignInManager<AppUser> signInManager;
             private readonly ITokenServices tokenServices;
+            private readonly IConfiguration configuration;
 
             public Handler(UserManager<AppUser> userManager,
                            RoleManager<IdentityRole> roleManager,
                            IMapper mapper,
                            SignInManager<AppUser> signInManager,
-                           ITokenServices tokenServices
+                           ITokenServices tokenServices,
+                           IConfiguration configuration
                            )
             {
                 this.userManager = userManager;
@@ -40,6 +44,7 @@ namespace Application.Features.Accounts.Command.Login
                 this.mapper = mapper;
                 this.signInManager = signInManager;
                 this.tokenServices = tokenServices;
+                this.configuration = configuration;
             }
 
             public async Task<BaseCommonResponse> Handle(LoginCommand request, CancellationToken cancellationToken)
@@ -48,7 +53,7 @@ namespace Application.Features.Accounts.Command.Login
 
                 try
                 {
-                    var user =await userManager.FindByNameAsync(request.LoginDto.UserName);
+                    var user =await userManager.Users.Include(x=>x.Photos).FirstOrDefaultAsync(x=>x.UserName==request.LoginDto.UserName);
                     if (user is not null) 
                     {
                         var result=await signInManager.CheckPasswordSignInAsync(user , request.LoginDto.Password,false);
@@ -60,7 +65,8 @@ namespace Application.Features.Accounts.Command.Login
                             {
                                 userName = user.UserName,
                                 email = user.Email,
-                                token =tokenServices.CreateToken(user)
+                                token = tokenServices.CreateToken(user),
+                                photoUrl = configuration["ApiURL"] +user.Photos.FirstOrDefault(x => x.IsMain && x.IsActive)?.Url
                             };
                             return res;
                         }

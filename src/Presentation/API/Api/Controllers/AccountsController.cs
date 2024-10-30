@@ -1,7 +1,10 @@
 ﻿using Application.Features.Accounts.Command.CheckUserNameOrEmailExist;
 using Application.Features.Accounts.Command.Login;
 using Application.Features.Accounts.Command.Register;
+using Application.Features.Accounts.Command.RemovePhoto;
+using Application.Features.Accounts.Command.SetMainPhoto;
 using Application.Features.Accounts.Command.UpdateCurrentMember;
+using Application.Features.Accounts.Command.UploadPhoto;
 using Application.Features.Accounts.Queries.GetAllUsers;
 using Application.Features.Accounts.Queries.GetCurrentUser;
 using Application.Features.Accounts.Queries.GetUserByUserId;
@@ -231,7 +234,69 @@ namespace Api.Controllers
                 throw;
             }
         }
-    
-    
+
+
+        [HttpPost("upload-photo")]
+        public async Task<IActionResult> UploadPhoto( IFormFile file)
+        {
+            try
+            {
+                var command = new UploadPhotoCommand {PhotoFile= file };
+                var response=await mediator.Send(command);
+                if (response)
+                    return Ok("Upload Successfully");
+                return BadRequest("Unable to upload photo");
+                
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Unable to upload photo {ex.Message}");
+
+                
+            }
+        }
+
+        [HttpDelete("deleted-photo/{id}")]
+        public async Task<IActionResult> RemovePhoto(int id)
+        {
+            try
+            {
+                var command = new RemovePhotoCommand(id);
+                var response = await mediator.Send(command);
+                if (response)
+                    return Ok("Remove Photo Successfully");
+                return BadRequest("Unable to Remove photo");
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Unable to Remove photo {ex.Message}");
+
+
+            }
+        }
+
+
+
+        [HttpPut("set-main-photo/{id}")]
+        public async Task<IActionResult> SetMainPhoto(int id)
+        {
+            try
+            {
+                if (id>0)
+                {
+                    var command=new SetMainPhotoCommand(id);
+                    var response=await mediator.Send(command);
+                    if (response)
+                        return Ok("assign successfully");
+
+                }
+                return NotFound($"This id {id} doesn't fount");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
