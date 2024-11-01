@@ -1,4 +1,5 @@
 ﻿using Application.Extentions;
+using Application.Features.Accounts.Command.Register;
 using Application.Features.Accounts.Queries.GetAllUsers;
 using Application.Features.Message.Command.AddMessage;
 using Application.Features.Message.Query.GetAllMessages;
@@ -25,11 +26,16 @@ namespace Application.MappingProfiles
             CreateMap<AppUser,MemberDto>()
                 .ForMember(d=>d.PhoneUrl,o=>o.MapFrom<UserMemberResolver>())
                 .ForMember(d => d.Age, o => o.MapFrom(s => s.DateOfBirth.CalculateAge()))
-
                 .ReverseMap();
+
             CreateMap<Photo,PhotoDto>()
                 .ForMember(d=>d.Url,o=>o.MapFrom<UserPhotoResolver>())
                 .ReverseMap();
+
+            //mapping appuser-RegisterDto
+            CreateMap<AppUser, RegisterDto>()
+          .ReverseMap();
+
         }
     }
 }

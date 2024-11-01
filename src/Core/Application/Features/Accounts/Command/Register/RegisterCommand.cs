@@ -3,9 +3,11 @@ using Application.Responses;
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,12 +26,14 @@ namespace Application.Features.Accounts.Command.Register
         {
             private readonly UserManager<AppUser> userManager;
             private readonly ITokenServices tokenServices;
+            private readonly IMapper mapper;
 
-            public Handler(UserManager<AppUser> userManager,ITokenServices tokenServices)
+            public Handler(UserManager<AppUser> userManager,ITokenServices tokenServices,IMapper mapper)
                           
             {
                 this.userManager = userManager;
                 this.tokenServices = tokenServices;
+                this.mapper = mapper;
             }
 
             public async Task<BaseCommonResponse> Handle(RegisterCommand request, CancellationToken cancellationToken)
@@ -38,11 +42,28 @@ namespace Application.Features.Accounts.Command.Register
 
                 try
                 {
-                    var user = new AppUser()
+                    //Create validtor
+                    var validator = new RegisterValidator();
+                    var validatorResult=await validator.ValidateAsync(request.RegisterDto, cancellationToken);
+                    if (validatorResult.IsValid ==false)
                     {
-                        Email = request.RegisterDto.Email,
-                        UserName = request.RegisterDto.UserName,
-                    };
+                        res.IsSuccess = false;
+                        res.Message = "While Validator Register Data";
+                        res.Erorrs=validatorResult.Errors.Select(x => x.ErrorMessage).ToList();
+                        return res;
+                        
+                    }
+                    var user=mapper.Map<AppUser>(request.RegisterDto);
+                    //var user = new AppUser()
+                    //{
+                    //    Email = request.RegisterDto.Email,
+                    //    UserName = request.RegisterDto.UserName,
+                    //    City=request.RegisterDto.city,
+                    //    Country = request.RegisterDto.country,
+                    //    KnownAs=request.RegisterDto.KnownAs,
+                    //    DateOfBirth=request.RegisterDto.DateOfBirth,
+                    //    Gender=request.RegisterDto.Gender,
+                    //};
                   var response=  await userManager.CreateAsync(user,request.RegisterDto.Password);
 
                     if (response.Succeeded==false) 
@@ -62,6 +83,12 @@ namespace Application.Features.Accounts.Command.Register
                     {
                         userName = user.UserName,
                         email = user.Email,
+                        kuownAs=user.KnownAs,
+                        //city=user.City,
+                        //country=user.Country,
+                        //dateofBirth=user.DateOfBirth,
+                        //gender=user.Gender,
+
                         token = tokenServices.CreateToken(user)
                     };
                     return res;

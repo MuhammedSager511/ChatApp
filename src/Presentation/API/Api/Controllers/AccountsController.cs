@@ -79,7 +79,7 @@ namespace Api.Controllers
         [AllowAnonymous]
         [ProducesDefaultResponseType]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
+        public async Task<ActionResult<RegisterDto>> Register([FromBody] RegisterDto registerDto)
         {
             try
             {
