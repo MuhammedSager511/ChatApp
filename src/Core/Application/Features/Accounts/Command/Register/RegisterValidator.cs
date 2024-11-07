@@ -13,7 +13,7 @@ namespace Application.Features.Accounts.Command.Register
         {
             RuleFor(x => x.UserName).NotNull()
                 .NotEmpty().WithMessage("User Name Not Empty !")
-                .MinimumLength(3).WithMessage("{PropertyName} Limited {PropertyValue} character");
+                .MinimumLength(3).WithMessage("{PropertyName} Limited 3 character");
 
             RuleFor(x => x.Email).NotNull()
                .NotEmpty().WithMessage("{PropertyName} is required !")
@@ -29,13 +29,25 @@ namespace Application.Features.Accounts.Command.Register
 
             RuleFor(x => x.KnownAs).NotNull()
             .NotEmpty().WithMessage(" KnownAs is required !")
-            .MinimumLength(3).WithMessage("{PropertyName} Length must be at least {PropertyValue} character ")
-            .MaximumLength(5).WithMessage("{PropertyName} Length must be not exceed {PropertyValue}  character");
+            .MinimumLength(3).WithMessage("{PropertyName} Length must be at least 3 character ")
+            .MaximumLength(5).WithMessage("{PropertyName} Length must be not exceed 5  character");
 
-          
-           
+
+
+
         }
 
-       
+
+
+
+
+
+        //private void beAl15Yeareolt(int time)
+        //{
+        //    int age = 2024- time;
+        //    if(time>2015)
+        //       return age == 10;
+
+        //}
     }
 }

@@ -66,7 +66,8 @@ namespace Application.Features.Accounts.Command.Login
                                 userName = user.UserName,
                                 email = user.Email,
                                 token = tokenServices.CreateToken(user),
-                                photoUrl = configuration["ApiURL"] +user.Photos.FirstOrDefault(x => x.IsMain && x.IsActive)?.Url
+                                photoUrl = configuration["ApiURL"] +user.Photos.FirstOrDefault(x => x.IsMain && x.IsActive)?.Url,
+                                gender=user.Gender
                             };
                             return res;
                         }

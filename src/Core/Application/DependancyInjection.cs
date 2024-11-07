@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Application.Helper;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ namespace Application
             //configure mediatR
             services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
 
+            services.AddScoped<LogUserActivity>();
 
             return services;
         }

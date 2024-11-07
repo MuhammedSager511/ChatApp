@@ -18,7 +18,7 @@ namespace Persistence.Configuration.Entities
                 new Photo()
                 {
                     Id = 1,
-                    AppUserId = "da9b70b8-5425-4f8f-82c4-144706bb4a93",
+                    AppUserId = "23389a67-db38-448d-9c16-b6769eed9a01",
                     IsActive = true,
                     IsMain = true,
                     Url = "https://xsgames.co/randomusers/assets/avatars/male/31.jpg",
@@ -26,8 +26,8 @@ namespace Persistence.Configuration.Entities
                 },
                    new Photo()
                    {
-                       Id=2,
-                       AppUserId = "da9b70b8-5425-4f8f-82c4-144706bb4a93",
+                       Id = 2,
+                       AppUserId = "23389a67-db38-448d-9c16-b6769eed9a01",
                        IsActive = true,
                        IsMain = true,
                        Url = "https://xsgames.co/randomusers/assets/avatars/male/41.jpg",
@@ -35,8 +35,8 @@ namespace Persistence.Configuration.Entities
                    },
                       new Photo()
                       {
-                          Id=3,
-                          AppUserId = "da9b70b8-5425-4f8f-82c4-144706bb4a93",
+                          Id = 3,
+                          AppUserId = "23389a67-db38-448d-9c16-b6769eed9a01",
                           IsActive = true,
                           IsMain = true,
                           Url = "https://xsgames.co/randomusers/assets/avatars/male/21.jpg",

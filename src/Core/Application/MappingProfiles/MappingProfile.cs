@@ -16,17 +16,20 @@ namespace Application.MappingProfiles
 {
     public class MappingProfile:Profile
     {
+        private const string baseURL = "https://localhost:7002/";
         public MappingProfile()
         {
             //Mapping Message
             CreateMap<Message,AddMessageDto>().ReverseMap();
             CreateMap<Message,MessageReturnDto>().ReverseMap();
 
-            //mapping appuser-memberdto
-            CreateMap<AppUser,MemberDto>()
-                .ForMember(d=>d.PhoneUrl,o=>o.MapFrom<UserMemberResolver>())
+            ////mapping appuser-memberdto
+            CreateMap<AppUser, MemberDto>()
+                .ForMember(d => d.PhoneUrl, o => o.MapFrom(x => baseURL + x.Photos.FirstOrDefault(c => c.IsMain).Url))
+                //.ForMember(d=>d.PhoneUrl,o=>o.MapFrom<UserMemberResolver>())
                 .ForMember(d => d.Age, o => o.MapFrom(s => s.DateOfBirth.CalculateAge()))
                 .ReverseMap();
+    
 
             CreateMap<Photo,PhotoDto>()
                 .ForMember(d=>d.Url,o=>o.MapFrom<UserPhotoResolver>())

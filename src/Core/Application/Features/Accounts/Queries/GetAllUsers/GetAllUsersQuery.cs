@@ -1,4 +1,5 @@
 ﻿using Application.Features.Accounts.Queries.GetCurrentUser;
+using Application.Helper;
 using Application.Presistence.Contracts;
 using AutoMapper;
 using Domain.Entities;
@@ -14,9 +15,15 @@ using System.Threading.Tasks;
 
 namespace Application.Features.Accounts.Queries.GetAllUsers
 {
-    public class GetAllUsersQuery :IRequest<List<MemberDto>>
+    public class GetAllUsersQuery :IRequest<PagedList<MemberDto>>
     {
-        class Handler : IRequestHandler<GetAllUsersQuery, List<MemberDto>>
+        public GetAllUsersQuery(UserParams userParams)
+        {
+            this.userParams = userParams;
+        }
+
+        public UserParams userParams {  get; set; } 
+        class Handler : IRequestHandler<GetAllUsersQuery, PagedList<MemberDto>>
         {
             private readonly IUserRepositry userRepositry;
             private readonly IMapper mapper;
@@ -26,13 +33,13 @@ namespace Application.Features.Accounts.Queries.GetAllUsers
                 this.userRepositry = userRepositry;
                 this.mapper = mapper;
             }
-            public async Task<List<MemberDto>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
+            public async Task<PagedList<MemberDto>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
             {
                 try
                 {
-                    var users = await userRepositry.GetUsersAsync();
-                    var res=mapper.Map<List<MemberDto>>(users);
-                    return res;
+                    var users = await userRepositry.GetMemberAsync(request.userParams);
+                    //var res=mapper.Map<List<MemberDto>>(users);
+                    return users;
                 }
                 catch (Exception)
                 {

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class identitytables1 : Migration
+    public partial class nnd : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -58,6 +58,29 @@ namespace Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Messages",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SenderId = table.Column<int>(type: "int", nullable: false),
+                    SenderUserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RecipientId = table.Column<int>(type: "int", nullable: false),
+                    RecipientUserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DateRead = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    MessageSend = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    SenderDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    RecipientDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    ModifiedData = table.Column<DateOnly>(type: "date", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Messages", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -174,7 +197,7 @@ namespace Persistence.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Url = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsMain = table.Column<bool>(type: "bit", nullable: false),
-                    PublicId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PublicId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AppUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ModifiedData = table.Column<DateOnly>(type: "date", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
@@ -189,27 +212,6 @@ namespace Persistence.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.UpdateData(
-                table: "Messages",
-                keyColumn: "Id",
-                keyValue: 1,
-                column: "MessageSend",
-                value: new DateTime(2024, 8, 21, 16, 23, 50, 685, DateTimeKind.Utc).AddTicks(2117));
-
-            migrationBuilder.UpdateData(
-                table: "Messages",
-                keyColumn: "Id",
-                keyValue: 2,
-                column: "MessageSend",
-                value: new DateTime(2024, 8, 21, 16, 23, 50, 685, DateTimeKind.Utc).AddTicks(2128));
-
-            migrationBuilder.UpdateData(
-                table: "Messages",
-                keyColumn: "Id",
-                keyValue: 3,
-                column: "MessageSend",
-                value: new DateTime(2024, 8, 21, 16, 23, 50, 685, DateTimeKind.Utc).AddTicks(2130));
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -275,6 +277,9 @@ namespace Persistence.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Messages");
+
+            migrationBuilder.DropTable(
                 name: "Photos");
 
             migrationBuilder.DropTable(
@@ -282,27 +287,6 @@ namespace Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.UpdateData(
-                table: "Messages",
-                keyColumn: "Id",
-                keyValue: 1,
-                column: "MessageSend",
-                value: new DateTime(2024, 8, 20, 16, 41, 8, 878, DateTimeKind.Utc).AddTicks(3875));
-
-            migrationBuilder.UpdateData(
-                table: "Messages",
-                keyColumn: "Id",
-                keyValue: 2,
-                column: "MessageSend",
-                value: new DateTime(2024, 8, 20, 16, 41, 8, 878, DateTimeKind.Utc).AddTicks(3902));
-
-            migrationBuilder.UpdateData(
-                table: "Messages",
-                keyColumn: "Id",
-                keyValue: 3,
-                column: "MessageSend",
-                value: new DateTime(2024, 8, 20, 16, 41, 8, 878, DateTimeKind.Utc).AddTicks(3905));
         }
     }
 }

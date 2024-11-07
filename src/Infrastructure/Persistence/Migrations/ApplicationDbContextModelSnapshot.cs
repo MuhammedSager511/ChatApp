@@ -171,50 +171,6 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Messages");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Content = "test-1",
-                            IsActive = true,
-                            MessageSend = new DateTime(2024, 10, 28, 17, 19, 28, 900, DateTimeKind.Utc).AddTicks(7995),
-                            ModifiedData = new DateOnly(1, 1, 1),
-                            RecipientDeleted = false,
-                            RecipientId = 1,
-                            RecipientUserName = "Ali",
-                            SenderDeleted = false,
-                            SenderId = 1,
-                            SenderUserName = "Muhammed"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Content = "test-2",
-                            IsActive = true,
-                            MessageSend = new DateTime(2024, 10, 28, 17, 19, 28, 900, DateTimeKind.Utc).AddTicks(8007),
-                            ModifiedData = new DateOnly(1, 1, 1),
-                            RecipientDeleted = false,
-                            RecipientId = 2,
-                            RecipientUserName = "Ali",
-                            SenderDeleted = false,
-                            SenderId = 2,
-                            SenderUserName = "Abdo"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Content = "test-3",
-                            IsActive = true,
-                            MessageSend = new DateTime(2024, 10, 28, 17, 19, 28, 900, DateTimeKind.Utc).AddTicks(8009),
-                            ModifiedData = new DateOnly(1, 1, 1),
-                            RecipientDeleted = false,
-                            RecipientId = 3,
-                            RecipientUserName = "Abdo",
-                            SenderDeleted = false,
-                            SenderId = 3,
-                            SenderUserName = "Muhammed"
-                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Photo", b =>
@@ -250,38 +206,6 @@ namespace Persistence.Migrations
                     b.HasIndex("AppUserId");
 
                     b.ToTable("Photos");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            AppUserId = "da9b70b8-5425-4f8f-82c4-144706bb4a93",
-                            IsActive = true,
-                            IsMain = true,
-                            ModifiedData = new DateOnly(1, 1, 1),
-                            PublicId = "some-unique-public-id55",
-                            Url = "https://xsgames.co/randomusers/assets/avatars/male/31.jpg"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            AppUserId = "da9b70b8-5425-4f8f-82c4-144706bb4a93",
-                            IsActive = true,
-                            IsMain = true,
-                            ModifiedData = new DateOnly(1, 1, 1),
-                            PublicId = "some-unique-public-id5533",
-                            Url = "https://xsgames.co/randomusers/assets/avatars/male/41.jpg"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            AppUserId = "da9b70b8-5425-4f8f-82c4-144706bb4a93",
-                            IsActive = true,
-                            IsMain = true,
-                            ModifiedData = new DateOnly(1, 1, 1),
-                            PublicId = "some-unique-public-id553",
-                            Url = "https://xsgames.co/randomusers/assets/avatars/male/21.jpg"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

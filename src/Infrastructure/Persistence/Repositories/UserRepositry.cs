@@ -1,4 +1,8 @@
-﻿using Application.Presistence.Contracts;
+﻿using Application.Features.Accounts.Queries.GetAllUsers;
+using Application.Helper;
+using Application.Presistence.Contracts;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Azure.Core;
 using Domain.Entities;
 using Microsoft.AspNetCore.Hosting;
@@ -22,14 +26,16 @@ namespace Persistence.Repositories
         private readonly UserManager<AppUser> userManager;
         private readonly IWebHostEnvironment webHost;
         private readonly IHttpContextAccessor httpContext;
+        private readonly IMapper mapper;
 
         public UserRepositry(ApplicationDbContext context,UserManager<AppUser> userManager,
-                            IWebHostEnvironment webHost,IHttpContextAccessor httpContext)
+                            IWebHostEnvironment webHost,IHttpContextAccessor httpContext,IMapper mapper)
         {
             this.context = context;
             this.userManager = userManager;
             this.webHost = webHost;
             this.httpContext = httpContext;
+            this.mapper = mapper;
         }
         public async Task<AppUser> GetUserByIdAsync(string userId)
             => await userManager.Users.Include(x => x.Photos).FirstOrDefaultAsync(x => x.Id == userId);
@@ -44,13 +50,13 @@ namespace Persistence.Repositories
 
       
 
-        public void UpdateUser(AppUser user)
+        public async Task UpdateUser(AppUser user)
         {
-            userManager.UpdateAsync(user);
+           await userManager.UpdateAsync(user);
             context.SaveChanges();
         }
 
-        public async Task<bool>UploadPhoto(IFormFile file, string pathName)
+        public async Task<PhotoDto> UploadPhoto(IFormFile file, string pathName)
         {
         
            
@@ -65,13 +71,15 @@ namespace Persistence.Repositories
                         if (user is not null)
                         {
                             Photo photo = new Photo();
+                        PhotoDto photoDto = new ();
                           
                             photo.Url = PhotoManager._uploadPhoto(webHost, file, pathName);
                             photo.AppUserId = user.Id;
                             photo.IsActive = true;
                             await context.Photos.AddAsync(photo);
                             await context.SaveChangesAsync();
-                            return true;
+                         
+                            return mapper.Map<PhotoDto>(photo);
                     }
                     }
 
@@ -79,7 +87,7 @@ namespace Persistence.Repositories
                 //
 
             }
-            return false;
+            return null;
         }
         public async Task<bool> RemovePhoto(int id)
         {
@@ -126,6 +134,45 @@ namespace Persistence.Repositories
                 }
             }
             return false ;
+        }
+
+        public async Task<PagedList<MemberDto>> GetMemberAsync(UserParams userParams)
+        {
+            
+                var currentUser=httpContext?.HttpContext?.User?.Claims?
+                    .FirstOrDefault(x=>x.Type==ClaimTypes.GivenName)?.Value;
+
+                //ckeck gender is null
+                if (currentUser is not null)
+                {
+                    var user=await userManager.FindByNameAsync(currentUser);
+                if (string.IsNullOrEmpty(userParams.Gender))
+                {
+                    userParams.Gender = user?.Gender == "male" ? "female" : "male";
+
+                }
+                  //reassing Current User Name
+                    userParams.CurrentUserName = user?.UserName;
+                }
+            //filter min-max age
+            var minDob = DateTime.Today.AddYears(-userParams.maxAge - 1);
+            var maxDob = DateTime.Today.AddYears(-userParams.minAge);
+
+       
+            var query = context.Users.Include(x => x.Photos).AsQueryable();
+            query = query.Where(x => x.UserName != userParams.CurrentUserName);
+            query = query.Where(x => x.Gender == userParams.Gender);
+            query = query.Where(x => x.DateOfBirth >= minDob && x.DateOfBirth <=maxDob);
+
+
+            //sorting by last active |creaetd
+
+            query = userParams.OrderBy switch
+            {
+                "created" => query.OrderByDescending(x => x.Created),
+                _ => query.OrderByDescending(x => x.LastActive),
+            };
+            return await PagedList<MemberDto>.CreateAsync(query.ProjectTo<MemberDto>(mapper.ConfigurationProvider) .AsNoTracking(), userParams.PageNumber, userParams.PageSize);
         }
     }
 }

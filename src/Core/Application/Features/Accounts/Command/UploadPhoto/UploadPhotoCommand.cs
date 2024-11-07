@@ -1,4 +1,6 @@
-﻿using Application.Presistence.Contracts;
+﻿
+using Application.Features.Accounts.Queries.GetAllUsers;
+using Application.Presistence.Contracts;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -12,11 +14,11 @@ using System.Threading.Tasks;
 
 namespace Application.Features.Accounts.Command.UploadPhoto
 {
-    public class UploadPhotoCommand:IRequest<bool>
+    public class UploadPhotoCommand:IRequest<PhotoDto>
     {
         public IFormFile PhotoFile { get; set; }
 
-        class Handler : IRequestHandler<UploadPhotoCommand, bool>
+        class Handler : IRequestHandler<UploadPhotoCommand, PhotoDto>
         {
             private readonly IUserRepositry userRepositry;
             private readonly IHttpContextAccessor httpContext;
@@ -29,27 +31,27 @@ namespace Application.Features.Accounts.Command.UploadPhoto
                 this.httpContext = httpContext;
                 this.userManager = userManager;
             } 
-            public async Task<bool> Handle(UploadPhotoCommand request, CancellationToken cancellationToken)
+            public async Task<PhotoDto> Handle(UploadPhotoCommand request, CancellationToken cancellationToken)
             {
                 try
                 {
                     if (request.PhotoFile is not null)
                     {
                       var result= await userRepositry.UploadPhoto(request.PhotoFile, "User");
-                        if (result)
+                        if (result is not null)
                         {
-                            return true;
+                            return result;
                         }
                         
-                        return false;
+                        return null;
                    
                     }
-                    return false;
+                    return null;
                 }
                 catch (Exception)
                 {
 
-                    return false;
+                    return null;
                 }
             }
         }

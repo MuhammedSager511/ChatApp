@@ -9,6 +9,7 @@ using Application.Features.Accounts.Queries.GetAllUsers;
 using Application.Features.Accounts.Queries.GetCurrentUser;
 using Application.Features.Accounts.Queries.GetUserByUserId;
 using Application.Features.Accounts.Queries.GetUserByUserName;
+using Application.Helper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -110,6 +111,7 @@ namespace Api.Controllers
         }
 
 
+
         [HttpGet("get-current-user")]
         public async Task<ActionResult<UserReturnDto>> GetCurrentUser(CancellationToken ct)
         {
@@ -152,16 +154,21 @@ namespace Api.Controllers
         }
 
         [HttpGet("get-all-users")]
-        public async Task<ActionResult> GetAllUsers(CancellationToken ct)
+        public async Task<ActionResult> GetAllUsers([FromQuery] UserParams userParams,CancellationToken ct)
         {
             try
             {
-                var users = await mediator.Send(new GetAllUsersQuery(), ct);
+               
+                
 
+                var users = await mediator.Send(new GetAllUsersQuery(userParams), ct);
                 if (users is not null)
                 {
+                    Response.AddPaginationHeader(users.CurrentPage,users.PageSize,users.TotalCount,users.TotalPages);
                     return Ok(users);
+
                 }
+
                 return NotFound();
 
             }
@@ -237,14 +244,14 @@ namespace Api.Controllers
 
 
         [HttpPost("upload-photo")]
-        public async Task<IActionResult> UploadPhoto( IFormFile file)
+        public async Task<ActionResult<PhotoDto>> UploadPhoto( IFormFile file)
         {
             try
             {
                 var command = new UploadPhotoCommand {PhotoFile= file };
                 var response=await mediator.Send(command);
-                if (response)
-                    return Ok("Upload Successfully");
+                if (response is not null)
+                    return Ok(response);
                 return BadRequest("Unable to upload photo");
                 
             }

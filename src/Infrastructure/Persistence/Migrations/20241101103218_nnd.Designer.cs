@@ -12,8 +12,8 @@ using Persistence.DatabaseContext;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241003173851_potoseed")]
-    partial class potoseed
+    [Migration("20241101103218_nnd")]
+    partial class nnd
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -174,50 +174,6 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Messages");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Content = "test-1",
-                            IsActive = true,
-                            MessageSend = new DateTime(2024, 10, 3, 17, 38, 49, 811, DateTimeKind.Utc).AddTicks(9896),
-                            ModifiedData = new DateOnly(1, 1, 1),
-                            RecipientDeleted = false,
-                            RecipientId = 1,
-                            RecipientUserName = "Ali",
-                            SenderDeleted = false,
-                            SenderId = 1,
-                            SenderUserName = "Muhammed"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Content = "test-2",
-                            IsActive = true,
-                            MessageSend = new DateTime(2024, 10, 3, 17, 38, 49, 811, DateTimeKind.Utc).AddTicks(9907),
-                            ModifiedData = new DateOnly(1, 1, 1),
-                            RecipientDeleted = false,
-                            RecipientId = 2,
-                            RecipientUserName = "Ali",
-                            SenderDeleted = false,
-                            SenderId = 2,
-                            SenderUserName = "Abdo"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Content = "test-3",
-                            IsActive = true,
-                            MessageSend = new DateTime(2024, 10, 3, 17, 38, 49, 811, DateTimeKind.Utc).AddTicks(9909),
-                            ModifiedData = new DateOnly(1, 1, 1),
-                            RecipientDeleted = false,
-                            RecipientId = 3,
-                            RecipientUserName = "Abdo",
-                            SenderDeleted = false,
-                            SenderId = 3,
-                            SenderUserName = "Muhammed"
-                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Photo", b =>
@@ -242,7 +198,6 @@ namespace Persistence.Migrations
                         .HasColumnType("date");
 
                     b.Property<string>("PublicId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Url")
@@ -254,38 +209,6 @@ namespace Persistence.Migrations
                     b.HasIndex("AppUserId");
 
                     b.ToTable("Photos");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            AppUserId = "d26d32da-d505-43b5-9e6d-51b667b27a0c",
-                            IsActive = true,
-                            IsMain = true,
-                            ModifiedData = new DateOnly(1, 1, 1),
-                            PublicId = "some-unique-public-id2",
-                            Url = "https://www.google.com/imgres?q=user&imgurl=https%3A%2F%2Fcdn-icons-png.flaticon.com%2F512%2F219%2F219986.png&imgrefurl=https%3A%2F%2Fwww.flaticon.com%2Ffree-icon%2Fuser_219986&docid=_W1KK9rlaF0E_M&tbnid=J8FAsbNvH-TK-M&vet=12ahUKEwj2-sOw3vKIAxU6g_0HHWUHKowQM3oECGoQAA..i&w=512&h=512&hcb=2&ved=2ahUKEwj2-sOw3vKIAxU6g_0HHWUHKowQM3oECGoQAA"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            AppUserId = "160465c2-b0b2-4fb7-abe1-56ac9944b894",
-                            IsActive = true,
-                            IsMain = false,
-                            ModifiedData = new DateOnly(1, 1, 1),
-                            PublicId = "some-unique-public-id2",
-                            Url = "https://www.google.com/imgres?q=user&imgurl=https%3A%2F%2Fcdn-icons-png.flaticon.com%2F512%2F219%2F219986.png&imgrefurl=https%3A%2F%2Fwww.flaticon.com%2Ffree-icon%2Fuser_219986&docid=_W1KK9rlaF0E_M&tbnid=J8FAsbNvH-TK-M&vet=12ahUKEwj2-sOw3vKIAxU6g_0HHWUHKowQM3oECGoQAA..i&w=512&h=512&hcb=2&ved=2ahUKEwj2-sOw3vKIAxU6g_0HHWUHKowQM3oECGoQAA"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            AppUserId = "2ff4a611-8f2c-4540-ace1-0da73cb212e0",
-                            IsActive = true,
-                            IsMain = false,
-                            ModifiedData = new DateOnly(1, 1, 1),
-                            PublicId = "some-unique-public-id3",
-                            Url = "https://www.google.com/imgres?q=user&imgurl=https%3A%2F%2Fcdn-icons-png.flaticon.com%2F512%2F219%2F219986.png&imgrefurl=https%3A%2F%2Fwww.flaticon.com%2Ffree-icon%2Fuser_219986&docid=_W1KK9rlaF0E_M&tbnid=J8FAsbNvH-TK-M&vet=12ahUKEwj2-sOw3vKIAxU6g_0HHWUHKowQM3oECGoQAA..i&w=512&h=512&hcb=2&ved=2ahUKEwj2-sOw3vKIAxU6g_0HHWUHKowQM3oECGoQAA"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

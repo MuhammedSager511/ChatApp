@@ -87,9 +87,9 @@ namespace Application.Features.Accounts.Command.Register
                         //city=user.City,
                         //country=user.Country,
                         //dateofBirth=user.DateOfBirth,
-                        //gender=user.Gender,
-
-                        token = tokenServices.CreateToken(user)
+                        gender=user.Gender,
+                        token = tokenServices.CreateToken(user),
+                        photoUrl=user.Photos.FirstOrDefault(x=>x.IsMain)?.Url,
                     };
                     return res;
                 }
