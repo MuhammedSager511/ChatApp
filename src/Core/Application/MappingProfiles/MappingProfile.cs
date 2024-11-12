@@ -25,7 +25,7 @@ namespace Application.MappingProfiles
 
             ////mapping appuser-memberdto
             CreateMap<AppUser, MemberDto>()
-                .ForMember(d => d.PhoneUrl, o => o.MapFrom(x => baseURL + x.Photos.FirstOrDefault(c => c.IsMain).Url))
+                .ForMember(d => d.PhotoUrl, o => o.MapFrom(x => baseURL + x.Photos.FirstOrDefault(c => c.IsMain).Url))
                 //.ForMember(d=>d.PhoneUrl,o=>o.MapFrom<UserMemberResolver>())
                 .ForMember(d => d.Age, o => o.MapFrom(s => s.DateOfBirth.CalculateAge()))
                 .ReverseMap();

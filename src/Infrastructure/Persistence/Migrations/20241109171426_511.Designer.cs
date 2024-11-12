@@ -12,8 +12,8 @@ using Persistence.DatabaseContext;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241101103218_nnd")]
-    partial class nnd
+    [Migration("20241109171426_511")]
+    partial class _511
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -174,6 +174,50 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Messages");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Content = "test-1",
+                            IsActive = true,
+                            MessageSend = new DateTime(2024, 11, 9, 17, 14, 25, 850, DateTimeKind.Utc).AddTicks(9626),
+                            ModifiedData = new DateOnly(1, 1, 1),
+                            RecipientDeleted = false,
+                            RecipientId = 11,
+                            RecipientUserName = "Ali",
+                            SenderDeleted = false,
+                            SenderId = 11,
+                            SenderUserName = "Muhammed"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Content = "test-2",
+                            IsActive = true,
+                            MessageSend = new DateTime(2024, 11, 9, 17, 14, 25, 850, DateTimeKind.Utc).AddTicks(9638),
+                            ModifiedData = new DateOnly(1, 1, 1),
+                            RecipientDeleted = false,
+                            RecipientId = 12,
+                            RecipientUserName = "Ali",
+                            SenderDeleted = false,
+                            SenderId = 12,
+                            SenderUserName = "Abdo"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Content = "test-3",
+                            IsActive = true,
+                            MessageSend = new DateTime(2024, 11, 9, 17, 14, 25, 850, DateTimeKind.Utc).AddTicks(9640),
+                            ModifiedData = new DateOnly(1, 1, 1),
+                            RecipientDeleted = false,
+                            RecipientId = 13,
+                            RecipientUserName = "Abdo",
+                            SenderDeleted = false,
+                            SenderId = 13,
+                            SenderUserName = "Muhammed"
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Photo", b =>

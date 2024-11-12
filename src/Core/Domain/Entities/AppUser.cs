@@ -12,6 +12,8 @@ namespace Domain.Entities
         public AppUser()
         {
             Photos = new HashSet<Photo>();
+            LikedByUser = new HashSet<UserLike>();
+            LikeUser = new HashSet<UserLike>();
         }
         
         public DateTime DateOfBirth { get; set; }
@@ -35,5 +37,7 @@ namespace Domain.Entities
 
 
         public ICollection<Photo> Photos { get; set; }
+        public ICollection<UserLike> LikeUser { get; set; }
+        public ICollection<UserLike> LikedByUser { get; set; }
     }
 }

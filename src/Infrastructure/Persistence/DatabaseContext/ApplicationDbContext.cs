@@ -19,7 +19,20 @@ namespace Persistence.DatabaseContext
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
           modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
-            base.OnModelCreating(modelBuilder); 
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<UserLike>()
+                .HasKey(k => new { k.SourceUserId, k.LikedUserId });
+
+            modelBuilder.Entity<UserLike>()
+                .HasOne(k => k.SourceUser)
+                .WithMany(k => k.LikeUser)
+                .HasForeignKey(k => k.SourceUserId);
+
+
+            modelBuilder.Entity<UserLike>()
+                .HasOne(k => k.LikedUser)
+                .WithMany(k => k.LikedByUser)
+                .HasForeignKey(k => k.LikedUserId);
         }
 
 
@@ -38,5 +51,6 @@ namespace Persistence.DatabaseContext
         }
         public DbSet<Message> Messages { get; set; }
         public DbSet<Photo> Photos { get; set; }
+        public DbSet<UserLike> UserLikes { get; set; }
     }
 }

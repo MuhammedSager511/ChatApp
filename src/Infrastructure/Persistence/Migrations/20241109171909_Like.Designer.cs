@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence.DatabaseContext;
 
@@ -11,9 +12,11 @@ using Persistence.DatabaseContext;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241109171909_Like")]
+    partial class Like
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -178,7 +181,7 @@ namespace Persistence.Migrations
                             Id = 1,
                             Content = "test-1",
                             IsActive = true,
-                            MessageSend = new DateTime(2024, 11, 12, 6, 27, 27, 709, DateTimeKind.Utc).AddTicks(5623),
+                            MessageSend = new DateTime(2024, 11, 9, 17, 19, 8, 919, DateTimeKind.Utc).AddTicks(7137),
                             ModifiedData = new DateOnly(1, 1, 1),
                             RecipientDeleted = false,
                             RecipientId = 11,
@@ -192,7 +195,7 @@ namespace Persistence.Migrations
                             Id = 2,
                             Content = "test-2",
                             IsActive = true,
-                            MessageSend = new DateTime(2024, 11, 12, 6, 27, 27, 709, DateTimeKind.Utc).AddTicks(5637),
+                            MessageSend = new DateTime(2024, 11, 9, 17, 19, 8, 919, DateTimeKind.Utc).AddTicks(7154),
                             ModifiedData = new DateOnly(1, 1, 1),
                             RecipientDeleted = false,
                             RecipientId = 12,
@@ -206,7 +209,7 @@ namespace Persistence.Migrations
                             Id = 3,
                             Content = "test-3",
                             IsActive = true,
-                            MessageSend = new DateTime(2024, 11, 12, 6, 27, 27, 709, DateTimeKind.Utc).AddTicks(5639),
+                            MessageSend = new DateTime(2024, 11, 9, 17, 19, 8, 919, DateTimeKind.Utc).AddTicks(7156),
                             ModifiedData = new DateOnly(1, 1, 1),
                             RecipientDeleted = false,
                             RecipientId = 13,

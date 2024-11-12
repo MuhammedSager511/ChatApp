@@ -27,6 +27,7 @@ namespace Persistence.Repositories
             { 
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
                 new Claim(JwtRegisteredClaimNames.GivenName, user.UserName),
+                new Claim(JwtRegisteredClaimNames.NameId, user.Id),
 
             };
             var creds = new SigningCredentials(symmetricSecurityKey,SecurityAlgorithms.HmacSha256Signature);

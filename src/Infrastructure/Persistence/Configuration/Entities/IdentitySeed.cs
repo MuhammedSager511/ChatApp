@@ -47,8 +47,8 @@ namespace Persistence.Configuration.Entities
                 {
                     await userManager.AddToRoleAsync(user, "Admin");
 
-                    // إدخال الصور بعد التأكد من نجاح إدخال المستخدم
-                    
+
+
                 }
             }
         }

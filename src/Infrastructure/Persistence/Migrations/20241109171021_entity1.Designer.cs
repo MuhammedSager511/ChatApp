@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence.DatabaseContext;
 
@@ -11,9 +12,11 @@ using Persistence.DatabaseContext;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241109171021_entity1")]
+    partial class entity1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -171,50 +174,6 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Messages");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Content = "test-1",
-                            IsActive = true,
-                            MessageSend = new DateTime(2024, 11, 12, 6, 27, 27, 709, DateTimeKind.Utc).AddTicks(5623),
-                            ModifiedData = new DateOnly(1, 1, 1),
-                            RecipientDeleted = false,
-                            RecipientId = 11,
-                            RecipientUserName = "Ali",
-                            SenderDeleted = false,
-                            SenderId = 11,
-                            SenderUserName = "Muhammed"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Content = "test-2",
-                            IsActive = true,
-                            MessageSend = new DateTime(2024, 11, 12, 6, 27, 27, 709, DateTimeKind.Utc).AddTicks(5637),
-                            ModifiedData = new DateOnly(1, 1, 1),
-                            RecipientDeleted = false,
-                            RecipientId = 12,
-                            RecipientUserName = "Ali",
-                            SenderDeleted = false,
-                            SenderId = 12,
-                            SenderUserName = "Abdo"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Content = "test-3",
-                            IsActive = true,
-                            MessageSend = new DateTime(2024, 11, 12, 6, 27, 27, 709, DateTimeKind.Utc).AddTicks(5639),
-                            ModifiedData = new DateOnly(1, 1, 1),
-                            RecipientDeleted = false,
-                            RecipientId = 13,
-                            RecipientUserName = "Abdo",
-                            SenderDeleted = false,
-                            SenderId = 13,
-                            SenderUserName = "Muhammed"
-                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Photo", b =>
@@ -250,21 +209,6 @@ namespace Persistence.Migrations
                     b.HasIndex("AppUserId");
 
                     b.ToTable("Photos");
-                });
-
-            modelBuilder.Entity("Domain.Entities.UserLike", b =>
-                {
-                    b.Property<string>("SourceUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("LikedUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("SourceUserId", "LikedUserId");
-
-                    b.HasIndex("LikedUserId");
-
-                    b.ToTable("UserLikes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -411,25 +355,6 @@ namespace Persistence.Migrations
                     b.Navigation("AppUser");
                 });
 
-            modelBuilder.Entity("Domain.Entities.UserLike", b =>
-                {
-                    b.HasOne("Domain.Entities.AppUser", "LikedUser")
-                        .WithMany("LikedByUser")
-                        .HasForeignKey("LikedUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.AppUser", "SourceUser")
-                        .WithMany("LikeUser")
-                        .HasForeignKey("SourceUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("LikedUser");
-
-                    b.Navigation("SourceUser");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -483,10 +408,6 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.AppUser", b =>
                 {
-                    b.Navigation("LikeUser");
-
-                    b.Navigation("LikedByUser");
-
                     b.Navigation("Photos");
                 });
 #pragma warning restore 612, 618
