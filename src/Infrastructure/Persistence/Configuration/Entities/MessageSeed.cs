@@ -19,9 +19,9 @@ namespace Persistence.Configuration.Entities
                     {
                         Id = 1,
                         Content = "test-1",
-                        SenderId = 11,
-                        SenderUserName = "Muhammed",
-                        RecipientId = 11,
+                        SenderId = "3fdcae8b-cc55-4098-ad5d-48c8c466b0f1",
+                        SenderUserName = "muhammed",
+                        RecipientId = "7226023f-be7e-4b0b-b26c-5e2ca69e811f",
                         RecipientUserName = "Ali",
                         IsActive = true,
                     },
@@ -29,22 +29,13 @@ namespace Persistence.Configuration.Entities
                     {
                         Id = 2,
                         Content = "test-2",
-                        SenderId = 12,
-                        SenderUserName = "Abdo",
-                        RecipientId = 12,
+                        SenderId = "9b42d11a-7fd9-4fc2-a391-22c8f9d1fce0",
+                        SenderUserName = "Muath",
+                        RecipientId = "7226023f-be7e-4b0b-b26c-5e2ca69e811f",
                         RecipientUserName = "Ali",
                         IsActive = true,
-                    },
-                    new Message()
-                    {
-                        Id = 3,
-                        Content = "test-3",
-                        SenderId = 13,
-                        SenderUserName = "Muhammed",
-                        RecipientId = 13,
-                        RecipientUserName = "Abdo",
-                        IsActive = true,
                     }
+                   
                 );
         }
     }

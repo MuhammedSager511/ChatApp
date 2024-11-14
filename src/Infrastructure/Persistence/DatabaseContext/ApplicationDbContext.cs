@@ -20,6 +20,8 @@ namespace Persistence.DatabaseContext
         {
           modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
             base.OnModelCreating(modelBuilder);
+
+            //like
             modelBuilder.Entity<UserLike>()
                 .HasKey(k => new { k.SourceUserId, k.LikedUserId });
 
@@ -33,6 +35,16 @@ namespace Persistence.DatabaseContext
                 .HasOne(k => k.LikedUser)
                 .WithMany(k => k.LikedByUser)
                 .HasForeignKey(k => k.LikedUserId);
+
+            //message
+            modelBuilder.Entity<Message>()
+             .HasOne(k => k.Recipient)
+             .WithMany(k => k.MessageRecived);
+
+
+            modelBuilder.Entity<Message>()
+                .HasOne(k => k.Sender)
+                .WithMany(k => k.MessageSend);
         }
 
 

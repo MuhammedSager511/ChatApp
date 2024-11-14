@@ -3,6 +3,7 @@ using Application.Features.Accounts.Command.Register;
 using Application.Features.Accounts.Queries.GetAllUsers;
 using Application.Features.Message.Command.AddMessage;
 using Application.Features.Message.Query.GetAllMessages;
+using Application.Features.Message.Query.GetAlMessageForUse;
 using Application.Helper;
 using AutoMapper;
 using Domain.Entities;
@@ -37,7 +38,16 @@ namespace Application.MappingProfiles
 
             //mapping appuser-RegisterDto
             CreateMap<AppUser, RegisterDto>()
-          .ReverseMap();
+                .ReverseMap();
+
+
+            // mapping message -messageDto
+            CreateMap<Message, MessageDto>()
+                .ForMember(d=>d.RecipientProfileUrl,o=>o.MapFrom(s=>baseURL+s.Recipient.Photos
+                .FirstOrDefault(x=>x.IsMain&&x.IsActive).Url))
+
+                .ForMember(d => d.SenderProfileUrl, o => o.MapFrom(s => baseURL + s.Sender.Photos
+                .FirstOrDefault(x => x.IsMain && x.IsActive).Url));
 
         }
     }

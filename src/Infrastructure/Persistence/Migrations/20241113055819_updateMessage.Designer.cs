@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence.DatabaseContext;
 
@@ -11,9 +12,11 @@ using Persistence.DatabaseContext;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241113055819_updateMessage")]
+    partial class updateMessage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -184,7 +187,7 @@ namespace Persistence.Migrations
                             Id = 1,
                             Content = "test-1",
                             IsActive = true,
-                            MessageSend = new DateTime(2024, 11, 14, 14, 29, 34, 90, DateTimeKind.Local).AddTicks(413),
+                            MessageSend = new DateTime(2024, 11, 13, 5, 58, 17, 883, DateTimeKind.Utc).AddTicks(5600),
                             ModifiedData = new DateOnly(1, 1, 1),
                             RecipientDeleted = false,
                             RecipientId = "7226023f-be7e-4b0b-b26c-5e2ca69e811f",
@@ -198,7 +201,7 @@ namespace Persistence.Migrations
                             Id = 2,
                             Content = "test-2",
                             IsActive = true,
-                            MessageSend = new DateTime(2024, 11, 14, 14, 29, 34, 90, DateTimeKind.Local).AddTicks(440),
+                            MessageSend = new DateTime(2024, 11, 13, 5, 58, 17, 883, DateTimeKind.Utc).AddTicks(5614),
                             ModifiedData = new DateOnly(1, 1, 1),
                             RecipientDeleted = false,
                             RecipientId = "7226023f-be7e-4b0b-b26c-5e2ca69e811f",
