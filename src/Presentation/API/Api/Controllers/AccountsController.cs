@@ -153,6 +153,8 @@ namespace Api.Controllers
             }
         }
 
+
+   
         [HttpGet("get-all-users")]
         public async Task<ActionResult> GetAllUsers([FromQuery] UserParams userParams,CancellationToken ct)
         {
@@ -181,6 +183,7 @@ namespace Api.Controllers
 
         }
 
+        //[Authorize(Roles ="Member")]
         [HttpGet("get-all-userName/{userName}")]
         public async Task<ActionResult<MemberDto>> GetUserByUserName(string userName, CancellationToken ct)
         {

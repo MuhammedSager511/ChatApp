@@ -1,5 +1,6 @@
 ﻿using Application.Presistence.Contracts;
 using Domain.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -15,13 +16,15 @@ namespace Persistence.Repositories
     public class TokenServices : ITokenServices
     {
         private readonly IConfiguration configuration;
+        private readonly UserManager<AppUser> userManager;
         private readonly SymmetricSecurityKey symmetricSecurityKey ;
-        public TokenServices(IConfiguration configuration)
+        public TokenServices(IConfiguration configuration,UserManager<AppUser> userManager)
         {
             this.configuration = configuration;
+            this.userManager = userManager;
             symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Token:Key"]));
         }
-        public string CreateToken(AppUser user)
+        public async Task<string> CreateToken(AppUser user)
         {
             var claim = new List<Claim>() 
             { 
@@ -30,6 +33,11 @@ namespace Persistence.Repositories
                 new Claim(JwtRegisteredClaimNames.NameId, user.Id),
 
             };
+            var roles =await userManager.GetRolesAsync(user);
+            claim.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
+
+
+
             var creds = new SigningCredentials(symmetricSecurityKey,SecurityAlgorithms.HmacSha256Signature);
             var tokenDescribtor = new SecurityTokenDescriptor()
             {

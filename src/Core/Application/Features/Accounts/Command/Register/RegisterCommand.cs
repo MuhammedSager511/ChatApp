@@ -65,7 +65,18 @@ namespace Application.Features.Accounts.Command.Register
                     //    Gender=request.RegisterDto.Gender,
                     //};
                   var response=  await userManager.CreateAsync(user,request.RegisterDto.Password);
+                  var roleResponse=   await userManager.AddToRoleAsync(user, "Member");
+                    if (roleResponse.Succeeded == false)
+                    {
+                        foreach (var item in roleResponse.Errors)
+                        {
+                            res.Erorrs.Add($"{item.Code} - {item.Description}");
+                        }
+                        res.IsSuccess = false;
+                        res.Message = "badRequst";
+                        return res;
 
+                    }
                     if (response.Succeeded==false) 
                     {
                         foreach (var item in response.Errors)
@@ -88,7 +99,7 @@ namespace Application.Features.Accounts.Command.Register
                         //country=user.Country,
                         //dateofBirth=user.DateOfBirth,
                         gender=user.Gender,
-                        token = tokenServices.CreateToken(user),
+                        token=await tokenServices.CreateToken(user),
                         photoUrl=user.Photos.FirstOrDefault(x=>x.IsMain)?.Url,
                     };
                     return res;

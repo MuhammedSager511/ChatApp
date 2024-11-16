@@ -46,7 +46,7 @@ namespace Application.Features.Accounts.Queries.GetCurrentUser
                             Email = user.Email,
                             UserName = user.UserName,
                             UserID = user.Id,
-                            Token = token.CreateToken(user)
+                            Token =await token.CreateToken(user)
 
                         };
                     }

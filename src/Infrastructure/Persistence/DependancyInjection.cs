@@ -64,6 +64,12 @@ namespace Persistence
                     };
                 });
 
+            services.AddAuthorization(opt =>
+            {
+                opt.AddPolicy("RequiredAdminRole", policy => policy.RequireRole("Admin"));
+                opt.AddPolicy("RequiredAdminWithMember", policy => policy.RequireRole("Admin","Member"));
+
+            });
             return services;
         }
         public static async void ConfigMiddleware(this IApplicationBuilder app)
