@@ -62,6 +62,19 @@ namespace Persistence
                         ValidIssuer = configuration["Token:Issuer"]
 
                     };
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context =>
+                        {
+                            var accessToken = context.Request.Query["access_token"];
+                            var Path=context.HttpContext.Request.Path;
+                            if(!string.IsNullOrEmpty(accessToken) && Path.StartsWithSegments("/hubs"))
+                            {
+                                context.Token = accessToken;
+                            }
+                            return Task.CompletedTask;
+                        }
+                    };
                 });
 
             services.AddAuthorization(opt =>

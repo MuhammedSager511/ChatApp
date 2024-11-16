@@ -1,3 +1,4 @@
+using Api.SignalR;
 using Application;
 using Microsoft.OpenApi.Models;
 using Persistence;
@@ -46,13 +47,25 @@ namespace Api
             // Configure External Project (dll)
             builder.Services.ConfigureApplication();
             builder.Services.ConfigurePersistence(builder.Configuration);
+            builder.Services.AddSignalR(options =>
+            {
+                options.KeepAliveInterval = TimeSpan.FromSeconds(15); //  Õﬁﬁ „‰ √‰ Â–« «·Êﬁ  Ì‰«”» «· ÿ»Ìﬁ
+                options.ClientTimeoutInterval = TimeSpan.FromSeconds(30);
+            });
+
+            //configure Presence Tracker
+            builder.Services.AddSingleton<PresenceTracker>();
+
 
             //Enable Cors
             builder.Services.AddCors(option =>
             {
                 option.AddPolicy("CorsPolicy", option =>
                 {
-                    option.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200");
+                    option.AllowAnyHeader()
+                    .AllowCredentials()
+                    .AllowAnyMethod()
+                    .WithOrigins("http://localhost:4200");
                 });
             });
             var app = builder.Build();
@@ -71,6 +84,8 @@ namespace Api
             app.UseAuthentication();
             app.UseAuthorization();
             app.MapControllers();
+            app.MapHub<PresenceHub>("hubs/presence");
+            app.MapHub<MessageHub>("hubs/message");
             Persistence.DependancyInjection.ConfigMiddleware(app);
             app.Run();
         }
